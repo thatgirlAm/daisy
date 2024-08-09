@@ -1,0 +1,73 @@
+<!-- Main modal -->
+<div *ngIf="isOpen" class="fixed inset-0 flex items-center h-2/3 justify-center">
+    <!-- Header -->
+    <div class="overlay fixed inset-0 bg-black opacity-50 " (click)="closeModal()"></div>
+    <div class="relative  w-full max-w-2xl max-h-full ">
+        <div class="relative rounded-lg shadow dark:bg-gray-700 w-full bg-white z-50">
+            <div class="flex items-center justify-between p-1 md:p-5 border-b rounded-t dark:border-gray-600 ">
+                <h4 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Détails Transaction
+                </h4>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" (click)="closeModal()">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Fermer</span>
+                </button>
+            </div>
+            <div class=" md:p-5 flex flex-col justify-center items-center" *ngIf="transaction!==null">
+                <div class="flex flex-row justify-between items-center w-3/5">
+                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-900 font-bold">
+                        ID: 
+                    </p>
+                    <span class="italic text-gray-600 font-medium">{{transaction.id_transaction}}</span>
+                </div>
+                <div class="flex flex-row justify-between items-center w-3/5">
+                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-900 font-bold">
+                        Montant: 
+                    </p>
+                    <span class="italic text-gray-600 font-medium">{{transaction.montant | currency:'XOF' }} </span>
+                </div>
+                <div class="flex flex-row justify-between items-center w-3/5">
+                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-600 font-bold">
+                        Date:
+                    </p>
+                    <span class="italic text-gray-600 font-medium">{{transaction.created_at | date:'long'}}</span>
+                </div>
+                <div class="flex flex-row justify-between items-center w-3/5" *ngIf="transaction.sender_nb!==0">
+                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-600 font-bold">
+                        Expéditeur:
+                    </p>
+                    <span class="italic text-gray-600 font-medium">{{ transaction.sender_nb }}</span>
+                </div>
+                <div class="flex flex-row justify-between items-center w-3/5" *ngIf="transaction.receiver_nb!==0">
+                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-600 font-bold">
+                        Destinataire:
+                    </p>
+                    <span class="italic text-gray-600 font-medium">{{ transaction.receiver_nb }}</span>
+                </div>
+                <!-- <div class="flex flex-row justify-between items-center w-3/5">
+                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-600 font-bold">
+                        Etat:
+                    </p>
+                    <div *ngIf="!transaction.archived">
+                        <div class="text-red-500 italic font-bold">Invalide</div>
+                      </div>
+                      <div *ngIf="transaction.archived">
+                        <div class="text-green-500 italic font-bold">Valide</div>
+                    
+                      </div>
+                </div> -->
+                <div class="flex flex-row justify-between items-center w-3/5" *ngIf="transaction.code_erreur!==0">
+                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-600 font-bold">
+                        Description Erreur:
+                    </p>
+                    <span class="italic text-gray-600 font-medium text-right">{{ getErrorDescription(transaction.code_erreur) }}</span>
+                </div>
+            </div>
+            <div class="flex flex-row justify-center items-center  md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button (click)="closeModal()" type="button" class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>

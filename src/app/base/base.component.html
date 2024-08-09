@@ -1,0 +1,78 @@
+<div class="bg-gray-50 font-family-karla flex flex-row" >
+
+    <!--Desktop -->
+    <div class="relative bg-gray-200 h-screen w-56 hidden sm:block shadow-xl mt-16 z-50">
+        <nav class="text-base text-black font-semibold">
+            <span class="flex items-center py-4 pl-6 nav-item hover:cursor-pointer" (click)="redirectEcarts()">
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                Ecarts
+            </span>
+            <span href="" class="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 hover:cursor-pointer"(click)="redirectTransactions()">
+                <i class="fas fa-sticky-note mr-3"></i>
+                Transactions
+            </span>
+
+        </nav>
+        
+    </div>
+    <div class="content w-full flex-grow overflow-x-hidden h-full flex flex-col mt-16">
+        <main class="w-full h-full p-6 z-50">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+    <div class="w-full flex flex-col h-screen overflow-y-hidden absolute top-0 justify-start">   
+        <header class="w-full items-center centerpiece py-2 px-3 hidden sm:flex ">
+            <img src="./logoofms.png" class="w-12 rounded-full mr-3" alt="">
+            <span class="text-3xl text-white">Daily</span>
+                    <div class="w-1/2"></div>
+                    <div  class="relative w-1/2 flex justify-end">
+                        <button  class="realtive z-10 w-12 h-12 overflow-hidden border-black rounded-lg hover:bg-orange-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none flex flex-row items-center justify-center" (click)="redirectCompte()">
+                            <img src="./utilisateur.png" alt="" class="h-8">
+                        </button>
+                        <button  class="h-full w-full fixed inset-0 cursor-default"></button>
+                    </div>
+                <span type="button" class="hover:bg-orange-400 rounded-lg p-2 pl-4 pr-4 z-50 hover:cursor-pointer" (click)="logout()">Déconnexion</span>
+            </header>
+
+<!--For phones -->
+        
+                <header  class="w-full bg-sidebar sm:hidden flex flex-col">
+                    <div class="centerpiece w-full flex flex-row items-center py-2 justify-between px-3">
+                        <div class="flex flex-row items-center justify-start">
+                        <img src="./logoofms.png" class="h-10 rounded-full mr-3" alt="">
+                        <span class="text-3xl text-white">Daily</span>
+                        </div>
+                        <div class="flex flex-row items-center">
+                        <div  class="relative w-1/2 flex justify-end">
+                        <button  class="realtive z-10 w-12 h-8 overflow-hidden border-black rounded-lg hover:bg-orange-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none flex flex-row items-center justify-center" (click)="redirectCompte()">
+                            <img src="./utilisateur.png" alt="" class="p-2">
+                        </button>
+                        <button  class="h-full w-full fixed inset-0 cursor-default"></button>
+                        
+                    </div>
+                        <div class="hamburguer-button flex flex-col hover:cursor-pointer hover:bg-orange-400 rounded-lg p-2 z-50" (click)="toggleMenu()">
+                            <div class="h-1 w-6 bg-white mb-1 rounded-lg"></div>
+                            <div class="h-1 w-6 bg-white mb-1 rounded-lg"></div>
+                            <div class="h-1 w-6 bg-white rounded-lg"></div>
+                        </div></div>
+                    </div>
+
+                    <nav id="menu" *ngIf="menuIsOpened" class=" h-screen bg-gray-100 flex flex-col justify-start items-center z-50">
+                        <span class="flex items-center py-8 pl-6 nav-item hover:cursor-pointer" (click)="redirectEcarts()">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                            Ecarts
+                        </span>
+                        <span href="" class="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 hover:cursor-pointer"(click)="redirectTransactions()">
+                            <i class="fas fa-sticky-note mr-3"></i>
+                            Transactions
+                        </span>
+                        <span class="flex items-center py-8 pl-6 nav-item hover:cursor-pointer" (click)="redirectCompte()">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                           Compte
+                        </span>
+                       
+                    </nav>
+                 
+                </header> 
+    </div>
+</div>
