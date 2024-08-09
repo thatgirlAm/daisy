@@ -1,10 +1,10 @@
 <!-- Main modal -->
 <div *ngIf="isOpen" class="fixed inset-0 flex items-center justify-center">
-    <!-- Header -->
-    <div class="overlay fixed inset-0 bg-black opacity-50 " (click)="closeModal()"></div>
-    <div class="relative p-4 w-full max-w-2xl max-h-full ">
+    <!-- Overlay -->
+    <div class="overlay fixed inset-0 bg-black opacity-50" (click)="closeModal()"></div>
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
         <div class="relative rounded-lg shadow dark:bg-gray-700 w-full bg-white z-50">
-            <div class="flex items-center justify-between p-1 md:p-5 border-b rounded-t dark:border-gray-600 ">
+            <div class="flex items-center justify-between p-1 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     Détails Ecart
                 </h3>
@@ -15,7 +15,7 @@
                     <span class="sr-only">Fermer</span>
                 </button>
             </div>
-            <div class="p-4 md:p-5 space-y-4 flex flex-col justify-center items-center" *ngIf="ecart!==null">
+            <div class="p-4 md:p-5 space-y-4 flex flex-col justify-center items-center" *ngIf="ecart !== null">
                 <div class="flex flex-row justify-between items-center w-3/5">
                     <p class="text-base leading-relaxed text-gray-900 dark:text-gray-900 font-bold">
                         ID: 
@@ -24,60 +24,10 @@
                 </div>
                 <div class="flex flex-row justify-between items-center w-3/5">
                     <p class="text-base leading-relaxed text-gray-900 dark:text-gray-900 font-bold">
-                        Montant: 
+                        Montant:
                     </p>
-                    <span class="italic text-gray-600 font-medium">{{ecart.montant_ecart | number}} Francs CFA</span>
+                    <span class="italic text-gray-600 font-medium">{{ecart.montant_ecart}}</span>
                 </div>
-                <div class="flex flex-row justify-between items-center w-3/5">
-                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-600 font-bold">
-                        Date:
-                    </p>
-                    <span class="italic text-gray-600 font-medium">{{ecart.created_at | date:'long'}}</span>
-                </div>
-                <div class="flex flex-row justify-between items-center w-3/5">
-                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-600 font-bold">
-                        Nombre de transactions :
-                    </p>
-                    <span class="italic text-gray-600 font-medium">{{ ecart.nombre| number }}</span>
-                </div>
-                <div class="flex flex-row justify-between items-center w-3/5">
-                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-600 font-bold">
-                        Surplus:
-                    </p>
-                    <div *ngIf="ecart.montant_ecart<0">
-                        <span class="text-purple-500 font-bold italic">Partenaire</span>
-                    </div>
-                    <div *ngIf="ecart.montant_ecart>0">
-                        <span class="text-orange-500 font-bold italic">Orange Money</span>
-                    </div>
-                </div>
-                <div>
-                    <p>Nombre transactions OM</p>
-                    <div>
-                        {{ ecart.nb_transactions_OM}}
-                    </div>
-                </div>
-                <div>
-                    <p>Nombre transactions Partenaire</p>
-                    <div>
-                        {{ ecart.nb_transactions_PARTENAIRE}}
-                    </div>
-                </div>
-                <div>
-                    <p>Total Montant OM</p>
-                    <div>
-                        {{ ecart.total_montant_OM}}
-                    </div>
-                </div>
-                <div>
-                    <p>Total Montant Partenaire</p>
-                    <div>
-                        {{ ecart.total_montant_PARTENAIRE}}
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-row justify-center items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button (click)="closeModal()" type="button" class="text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Fermer</button>
             </div>
         </div>
     </div>

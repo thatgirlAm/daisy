@@ -34,7 +34,6 @@
         </div>
         <div *ngIf="ecartModal?.isOpen" class="modal-overlay" (click)="closeModal()">
           <div class="modal-content" (click)="$event.stopPropagation()" *ngIf="selectedEcart">
-            <app-ecart-modal [isOpen]="isModalOpen" #ecartModal (close)="closeModal()"></app-ecart-modal>          </div>
-        </div>
+            <app-ecart-modal [isOpen]="isModalOpen" [ecart]="selectedEcart"></app-ecart-modal>        </div>
       </div>
 
