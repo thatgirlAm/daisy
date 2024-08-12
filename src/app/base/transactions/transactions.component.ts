@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoaderComponent } from '../loader/loader.component';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../api.service';
 import { Transaction } from '../transaction';
 import { ToastrService } from 'ngx-toastr'; 
@@ -19,6 +19,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { log } from 'node:console';
 import { DateRangePickerOverviewExample } from "../../date-range-picker/date-range-picker.component";
+import { routes } from '../../app.routes';
 
 
 @Component({
@@ -35,7 +36,9 @@ import { DateRangePickerOverviewExample } from "../../date-range-picker/date-ran
     TransactionModalComponent,
     MatFormFieldModule,
     MatDatepickerModule,
-    DateRangePickerOverviewExample
+    DateRangePickerOverviewExample,
+    RouterModule,
+    
 ],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.css'],
@@ -48,7 +51,7 @@ export class TransactionsComponent implements OnInit {
   loaded: boolean = false; 
   transactions: Transaction[] = [];
   filteredTransactions: Transaction[] = [];
-  dateFilter: string = '';
+  startDate: string = '';
   archivedFilter: boolean = false;
   currentPage: number = 1;
   itemsPerPage: number = 10;
@@ -63,10 +66,10 @@ export class TransactionsComponent implements OnInit {
   @ViewChild(TransactionModalComponent) transactionModal!: TransactionModalComponent;
 
   constructor(
-    private router: Router, 
+    public router: Router, 
     private http: HttpClient, 
     private api: ApiService, 
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit() {
@@ -103,9 +106,16 @@ export class TransactionsComponent implements OnInit {
     this.filteredTransactions = this.transactions;
     let tempTransactions = this.filteredTransactions;
     if (this.range.start && this.range.end) {
+      console.log(this.range.start> this.range.end);
+      if(this.range.start> this.range.end)
+        {
+          this.toastr.warning('Choissez une date de début et de fin valides', 'Filtre mal initialisé');
+          return;
+        }
       tempTransactions = tempTransactions.filter(transaction => 
         new Date(transaction.created_at)>= this.range.start && new Date(transaction.created_at) <= this.range.end);
-    }
+      }
+    
 
     this.filteredTransactions = tempTransactions;
     this.currentPage = 1;
@@ -147,7 +157,7 @@ export class TransactionsComponent implements OnInit {
 
   resetFilters() {
     this.range = { start: '', end: '' };
-    this.dateFilter = '';
+    this.startDate = '';
     this.applyFilters();
     this.filtre = false ; 
     

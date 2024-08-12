@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { NgZone } from '@angular/core'; 
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,7 @@ export class BaseComponent implements OnInit {
 
   menuIsOpened : boolean = false;
   
-  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object, private renderer: Renderer2)
+  constructor(private router: Router,public zone: NgZone, @Inject(PLATFORM_ID) private platformId: Object, private renderer: Renderer2)
   {}
 
   ngOnInit() {
@@ -27,17 +28,21 @@ export class BaseComponent implements OnInit {
 
   redirectTransactions()
   {
-    this.router.navigate(['transactions']);
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>{
+      this.router.navigate(['/transactions']);
+    });
     this.hideMenu();
   }
   redirectEcarts()
   {
-    this.router.navigate(['ecarts']);
-    this.hideMenu();
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>{
+      this.router.navigate(['/ecarts']);
+    });
+        this.hideMenu();
   }
   redirectCompte()
   {
-    this.router.navigate(['compte']);
+    this.zone.run(() => {this.router.navigate(['compte'])});
     this.hideMenu();
   }
 
@@ -51,7 +56,7 @@ hideMenu()
     this.menuIsOpened = false;
   }
   logout(){
-    this.router.navigate(['login']);  
+    this.zone.run(() => {this.router.navigate(['login'])});
     localStorage.clear();
   }
 

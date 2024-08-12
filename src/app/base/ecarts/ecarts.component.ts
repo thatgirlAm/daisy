@@ -9,6 +9,7 @@ import { Ecart } from '../ecart';
 import { EcartModalComponent } from '../ecart-modal/ecart-modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../api.service';
+import { Router, RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-ecarts',
@@ -21,6 +22,7 @@ import { ApiService } from '../api.service';
     CommonModule,
     NgIf,
     NgFor,
+    RouterModule
   ],
   standalone: true 
 })
@@ -30,17 +32,16 @@ export class EcartsComponent implements OnInit{
   isModalOpen: boolean = false;
   filteredEcarts: Ecart[] = [];
   itemsPerPage: number = 10;
-  dateFilter: string = '';
+  startDate: string = '';
+  endDate: string = '';
   archivedFilter: boolean = false;
   ecarts: Ecart[] = [];
   loaded: boolean = false;
   currentPage: number = 1;
   url='http://127.0.0.1:8000/api/';
 
-  constructor(private toastr:ToastrService, private api:ApiService) 
-    { 
-
-    }
+  constructor(private toastr:ToastrService, public router : Router, private api:ApiService) 
+    {}
 
   ngOnInit(): void {
     this.loadEcarts();
@@ -53,10 +54,19 @@ paginatedEcarts(): Ecart[] {
   }
   applyFilters() {
     let tempEcarts = this.ecarts;
-
-    if (this.dateFilter) {
+    if (this.startDate && this.endDate) {
+      if(this.startDate>this.endDate)
+      {
+        this.toastr.error('La date de début doit être ultérieure à la date de fin', 'Filtre mal rempli');
+        this.startDate = "";
+        this.endDate = ""
+        return;
+      }
+      const start = new Date(this.startDate).toDateString();
+      const end = new Date(this.endDate).toDateString();
       tempEcarts = tempEcarts.filter(ecart =>
-        new Date(ecart.created_at).toDateString() === new Date(this.dateFilter).toDateString()
+        new Date(ecart.created_at).toDateString() > start && 
+        new Date(ecart.created_at).toDateString() < end
       );
     }
 
