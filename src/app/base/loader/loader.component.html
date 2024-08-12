@@ -1,6 +1,7 @@
-  <div class="load-row w-full">
-    <div class="load-row__title w-full text-orange-400">Chargement...</div>
-        <span></span>
-        <span></span>
-        <span></span>
+<div class="table-skeleton">
+  <div class="table-row" *ngFor="let row of [].constructor(5); let i = index">
+    <ngx-skeleton-loader *ngFor="let col of [].constructor(columns)"
+                         class="h-3 w-full" appearance="circle" >
+    </ngx-skeleton-loader>
+  </div>
 </div>

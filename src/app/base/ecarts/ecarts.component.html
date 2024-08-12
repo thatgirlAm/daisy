@@ -30,7 +30,7 @@
           </tbody>
         </table>
         <div *ngIf="!loaded" class="flex flex-row justify-center items-center w-full">
-          <loader></loader>
+          <loader [columns]="4"></loader>
         </div>
         <div *ngIf="ecartModal?.isOpen" class="modal-overlay" (click)="closeModal()">
           <div class="modal-content" (click)="$event.stopPropagation()" *ngIf="selectedEcart">

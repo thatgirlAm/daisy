@@ -18,24 +18,25 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { log } from 'node:console';
+import { DateRangePickerOverviewExample } from "../../date-range-picker/date-range-picker.component";
 
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
   imports: [
-      // MatTableModule,
-      LoaderComponent,
-      FormsModule,
-      CommonModule,
-      NgIf,
-      NgFor,
-      //MatPaginatorModule,
-      TransactionModalComponent,
-      MatFormFieldModule, 
-      MatDatepickerModule,
-  
-    ],
+    // MatTableModule,
+    LoaderComponent,
+    FormsModule,
+    CommonModule,
+    NgIf,
+    NgFor,
+    //MatPaginatorModule,
+    TransactionModalComponent,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    DateRangePickerOverviewExample
+],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.css'],
   providers: [
