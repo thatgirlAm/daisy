@@ -2,9 +2,30 @@
     <div class="w-full flex flex-row justify-center items-center">
       <p class="text-3xl">Transactions</p>
     </div>
-    <div class="flex flex-row justify-start items-center mb-4 w-2/3 ml-48 border-solid border-2 border-gray-100 rounded-lg p-2">
-      <div>
+
+    <div class="flex items-start justify-end flex-col rounded-xl border-solid border-2 p-4 bg-gray-300 my-4">
+      <div class="dropdown flex flex-row">
+        <p>Choisir un partenaire : </p>
+        <select name="dropdown" id="dropdown" class="rounded-full w-1/2 border-solid  ml-2 border-2" [(ngModel)]="selectedPartenaire" (change)="applyFilters()">
+          <option value="" disabled selected>Choisir un partenaire</option>
+          <option *ngFor="let partenaire of partenaires" [value]="partenaire">{{ partenaire }}</option>
+        </select>
       </div>
+    <div class="flex flex-row items-center justify-start  mb-4 mt-7 h-full">
+      <label for="startDate" class="mr-2">Du:</label>
+      <input type="date" id="startDate"  [(ngModel)]="startDate" name="startDate" class="rounded-lg p-2 border-solid border-2 mr-2">
+      <label for="endDate" class="mr-2">au:</label>
+      <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="rounded-lg p-2 border-solid border-2 mr-2">
+      <button type="button" class="w-1/5 button" (click)="applyFilters()">Filtrer</button>
+      <button type="button" (click)="reinitialiser()" class="button_2 w-full border-solid border-2">Réinitialiser les filtres</button>
+    </div>
+  </div>
+    <!-- <div class="flex flex-row justify-start items-center mb-4 w-2/3 ml-48 border-solid border-2 border-gray-100 rounded-lg p-2">
+      <div>
+      </div> -->
+
+
+      
       <!-- <div class="pl-2">
         <label for="startDate">Filtrer par date :</label>
         <mat-form-field class="rounded-lg ml-2"  id="startDate">
@@ -22,7 +43,7 @@
       
       </div> -->
       </div>
-      <div *ngIf="!loaded" class="flex flex-col items-center">
+      <div *ngIf="loaded" class="flex flex-col items-center">
       <div class="relative shadow-md sm:rounded-lg w-4/5 mt-1" >
         <table class="w-full text-2xl text-center text-gray-500 dark:text-gray-400">
           <thead class="text-2xl text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">

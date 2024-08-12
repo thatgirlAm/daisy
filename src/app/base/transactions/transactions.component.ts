@@ -8,37 +8,29 @@ import { ApiService } from '../api.service';
 import { Transaction } from '../transaction';
 import { ToastrService } from 'ngx-toastr'; 
 import { FormsModule } from '@angular/forms';
-// import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-// import { MatTableModule } from '@angular/material/table';
 import { TransactionModalComponent } from '../transaction-modal/transaction-modal.component';
 import { DateRange, IGX_DATE_RANGE_PICKER_DIRECTIVES } from 'igniteui-angular';
 import {ChangeDetectionStrategy} from '@angular/core';
-// import {provideNativeDateAdapter} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { log } from 'node:console';
 import { DateRangePickerOverviewExample } from "../../date-range-picker/date-range-picker.component";
-import { routes } from '../../app.routes';
 
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
   imports: [
-    // MatTableModule,
     LoaderComponent,
     FormsModule,
     CommonModule,
     NgIf,
     NgFor,
-    //MatPaginatorModule,
     TransactionModalComponent,
     MatFormFieldModule,
     MatDatepickerModule,
     DateRangePickerOverviewExample,
-    RouterModule,
-    
+    RouterModule,  
 ],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.css'],
@@ -52,16 +44,18 @@ export class TransactionsComponent implements OnInit {
   transactions: Transaction[] = [];
   filteredTransactions: Transaction[] = [];
   startDate: string = '';
+  endDate: string = '';
+  partenaires !: string[];
   archivedFilter: boolean = false;
   currentPage: number = 1;
   itemsPerPage: number = 10;
   paginatedTransactions: Transaction[] = [];
   selectedTransaction!: Transaction | null;
   url: string = 'http://127.0.0.1:8000/api/';
-  public range: DateRange = { start: '', end: '' };
   filtre : boolean = false ; 
   partners: string[] = [];
-  selectedPartner: string = '';
+  selectedPartenaire: string = '';
+
 
   @ViewChild(TransactionModalComponent) transactionModal!: TransactionModalComponent;
 
@@ -93,47 +87,19 @@ export class TransactionsComponent implements OnInit {
       complete: () => {
         this.loaded = true ; 
         console.log(this.transactions);
-        
+        this.getPartenaires(); 
         this.updatePaginatedTransactions();
+        this.applyFilters();
       }
     });
   }
 
   
-  applyFilters() {
-    this.filtre = true; 
-    if (!this.loaded) return;
-    this.filteredTransactions = this.transactions;
-    let tempTransactions = this.filteredTransactions;
-    if (this.range.start && this.range.end) {
-      console.log(this.range.start> this.range.end);
-      if(this.range.start> this.range.end)
-        {
-          this.toastr.warning('Choissez une date de début et de fin valides', 'Filtre mal initialisé');
-          return;
-        }
-      tempTransactions = tempTransactions.filter(transaction => 
-        new Date(transaction.created_at)>= this.range.start && new Date(transaction.created_at) <= this.range.end);
-      }
-    
-
-    this.filteredTransactions = tempTransactions;
-    this.currentPage = 1;
-    // this.updatePaginatedTransactions();
-    
-  }
   get paginatedTransactionsFunct() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     return this.filteredTransactions.slice(startIndex, endIndex);
   }
-
-  // onPageChange(event: PageEvent) {
-  //   this.currentPage = event.pageIndex;
-  //   const startIndex = this.currentPage * event.pageSize;
-  //   const endIndex = startIndex + event.pageSize;
-  //   this.paginatedTransactions = this.filteredTransactions.slice(startIndex, endIndex);
-  // }
 
   get totalPages(): number {
     return Math.ceil(this.filteredTransactions.length / this.itemsPerPage);
@@ -155,21 +121,67 @@ export class TransactionsComponent implements OnInit {
     this.transactionModal.openModal();
   }
 
-  resetFilters() {
-    this.range = { start: '', end: '' };
-    this.startDate = '';
-    this.applyFilters();
-    this.filtre = false ; 
-    
-  }
 
 Filtre(){
-    if(this.range.end=='' || this.range.start=='')
+    if(this.endDate=='' || this.startDate=='')
       {
         this.toastr.warning('Choissez une date de début et de fin', 'Filtre mal initialisé');
         return;
       }
       this.applyFilters(); 
+  }
+  getPartenaires() {
+    const uniquePartenaires = new Set<string>();
+    for (const ecart of this.transactions) {
+      uniquePartenaires.add(ecart.partenaire);
+      uniquePartenaires.add("TEST");
+    }
+    this.partenaires = Array.from(uniquePartenaires);
+    console.log(this.partenaires);
+    
+  }
+  applyFilters() {
+    let temptransactions = this.transactions;
+    if (this.startDate && this.endDate) {
+      const start = new Date(this.startDate);
+      const end = new Date(this.endDate);
+  
+      if (start <= end) {
+        temptransactions = temptransactions.filter(transaction => {
+          const createdAt = new Date(transaction.created_at);
+          return createdAt >= start && createdAt <= end;
+        });
+      } else {
+        console.error("Start date must be before end date.");
+      }
+    }
+
+    if(this.selectedPartenaire) {
+      temptransactions = temptransactions.filter(ecart => {
+        if (!this.selectedPartenaire)
+        {
+          return ; 
+        }
+        return ecart.partenaire === this.selectedPartenaire;
+      });
+    }
+    this.filteredTransactions = temptransactions;
+
+  }
+
+  reinitialiser()
+  {
+    if(this.startDate || this.endDate)
+    {
+      this.startDate = "";
+      this.endDate = "";
+      this.applyFilters();
+    }
+    if(this.selectedPartenaire)
+    {
+      this.selectedPartenaire = '';
+      this.applyFilters();
+    }
   }
 
 }

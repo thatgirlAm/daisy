@@ -2,14 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoaderComponent } from '../loader/loader.component';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-// import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { Ecart } from '../ecart';
-// import { sendModalComponent } from '../send-modal/send-modal.component';
 import { EcartModalComponent } from '../ecart-modal/ecart-modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../api.service';
 import { Router, RouterModule} from '@angular/router';
+
 
 @Component({
   selector: 'app-ecarts',
@@ -22,11 +20,14 @@ import { Router, RouterModule} from '@angular/router';
     CommonModule,
     NgIf,
     NgFor,
-    RouterModule
+    RouterModule,
+    FormsModule,
   ],
   standalone: true 
 })
 export class EcartsComponent implements OnInit{
+  partenaires : string[]= [] ; 
+  selectedPartenaire !:  string  | null;
   @ViewChild(EcartModalComponent) ecartModal!: EcartModalComponent;
   selectedEcart!: Ecart;
   isModalOpen: boolean = false;
@@ -35,6 +36,7 @@ export class EcartsComponent implements OnInit{
   startDate: string = '';
   endDate: string = '';
   archivedFilter: boolean = false;
+  dropdown : boolean = false ; 
   ecarts: Ecart[] = [];
   loaded: boolean = false;
   currentPage: number = 1;
@@ -55,21 +57,28 @@ paginatedEcarts(): Ecart[] {
   applyFilters() {
     let tempEcarts = this.ecarts;
     if (this.startDate && this.endDate) {
-      if(this.startDate>this.endDate)
-      {
-        this.toastr.error('La date de début doit être ultérieure à la date de fin', 'Filtre mal rempli');
-        this.startDate = "";
-        this.endDate = ""
-        return;
+      const start = new Date(this.startDate);
+      const end = new Date(this.endDate);
+  
+      if (start <= end) {
+        tempEcarts = tempEcarts.filter(ecart => {
+          const createdAt = new Date(ecart.created_at);
+          return createdAt >= start && createdAt <= end;
+        });
+      } else {
+        console.error("Start date must be before end date.");
       }
-      const start = new Date(this.startDate).toDateString();
-      const end = new Date(this.endDate).toDateString();
-      tempEcarts = tempEcarts.filter(ecart =>
-        new Date(ecart.created_at).toDateString() > start && 
-        new Date(ecart.created_at).toDateString() < end
-      );
     }
 
+    if (this.selectedPartenaire) {
+      tempEcarts = tempEcarts.filter(ecart => {
+        if (!this.selectedPartenaire)
+        {
+          return ; 
+        }
+        return ecart.partenaire === this.selectedPartenaire;
+      });
+    }
     this.filteredEcarts = tempEcarts;
 
     // if (this.paginator) {
@@ -101,8 +110,9 @@ totalPages(): number {
       this.ecartModal.isOpen = false;
     }
   }
-  loadEcarts() {
-    this.loaded = false;
+
+loadEcarts() {
+  this.loaded = false;
     this.api.getData(this.url+'stats').subscribe({
       next : (res:any) => {
         this.ecarts = res.data;
@@ -114,11 +124,45 @@ totalPages(): number {
       },
       complete : () => {
         this.loaded = true;
-        this.filteredEcarts = this.ecarts;
+        this.filteredEcarts = this.ecarts; 
+        this.getPartenaires(); 
       }
 
     });
-    this.applyFilters(); 
+    this.applyFilters();
+   
   }
-  
+
+  getPartenaires() {
+    const uniquePartenaires = new Set<string>();
+    for (const ecart of this.ecarts) {
+      uniquePartenaires.add(ecart.partenaire);
+      uniquePartenaires.add("TEST");
+    }
+    this.partenaires = Array.from(uniquePartenaires);
+    console.log(this.partenaires);
+    
+  }
+  dropdownFunc()
+  {
+    this.dropdown!=this.dropdown;
+  }
+
+
+  reinitialiser()
+  {
+    if(this.startDate || this.endDate)
+    {
+      this.startDate = "";
+      this.endDate = "";
+      this.applyFilters();
+    }
+    if(this.selectedPartenaire)
+    {
+      this.selectedPartenaire = null;
+      this.applyFilters();
+    }
+  }
+
+ 
 }

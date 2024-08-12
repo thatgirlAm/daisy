@@ -206,3 +206,33 @@ body{
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.button
+{
+    border-radius: 9999px;
+    --tw-bg-opacity: 1;
+    background-color: rgb(249 115 22 / var(--tw-bg-opacity)) /* #f97316 */;
+    padding-left: 1rem /* 16px */;
+    padding-right: 1rem /* 16px */;
+    padding-top: 0.25rem /* 4px */;
+    padding-bottom: 0.25rem /* 4px */;
+    margin-left: 1rem /* 16px */;
+    border-width:2;
+
+}
+
+.button_2
+{
+    border-radius: 9999px;
+    --tw-bg-opacity: 1;
+    color : rgb(249 115 22 / var(--tw-bg-opacity));
+    background-color: #FFFFFF /* #f97316 */;
+    padding-left: 1rem /* 16px */;
+    padding-right: 1rem /* 16px */;
+    padding-top: 0.25rem /* 4px */;
+    padding-bottom: 0.25rem /* 4px */;
+    margin-left: 1rem /* 16px */;
+    border-width:2;
+
+}
