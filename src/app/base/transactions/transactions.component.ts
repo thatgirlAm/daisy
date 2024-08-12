@@ -76,20 +76,16 @@ export class TransactionsComponent implements OnInit {
     this.loaded = false;
     this.api.getData(this.url + 'transactions').subscribe({
       next: (res: any) => {
-        this.transactions = res.data;
-        this.filteredTransactions = this.transactions;
-  
+        this.transactions = res.data; 
       },
       error: (err) => {
-        this.toastr.error(err);
         this.loaded = true;
+        this.toastr.error(err);
       },
       complete: () => {
         this.loaded = true ; 
-        console.log(this.transactions);
         this.getPartenaires(); 
-        this.updatePaginatedTransactions();
-        this.applyFilters();
+        this.filteredTransactions = this.transactions ; 
       }
     });
   }
