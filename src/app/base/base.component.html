@@ -3,6 +3,10 @@
     <!--Desktop -->
     <div class="relative bg-gray-200 h-screen w-56 hidden sm:block shadow-xl mt-16 z-50">
         <nav class="text-base text-black font-semibold">
+            <span href="" class="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 hover:cursor-pointer"(click)="redirectHome()">
+                <i class="fas fa-sticky-note mr-3"></i>
+                Accueil
+            </span>
             <span class="flex items-center py-4 pl-6 nav-item hover:cursor-pointer" (click)="redirectEcarts()">
                 <i class="fas fa-tachometer-alt mr-3"></i>
                 Ecarts
@@ -11,6 +15,8 @@
                 <i class="fas fa-sticky-note mr-3"></i>
                 Transactions
             </span>
+            
+
 
         </nav>
         
@@ -58,17 +64,17 @@
                     </div>
 
                     <nav id="menu" *ngIf="menuIsOpened" class=" h-screen bg-gray-100 flex flex-col justify-start items-center z-50">
+                        <span class="flex items-center py-8 pl-6 nav-item hover:cursor-pointer" (click)="redirectHome()">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                           Accueil
+                        </span>
                         <span class="flex items-center py-8 pl-6 nav-item hover:cursor-pointer" (click)="redirectEcarts()">
                             <i class="fas fa-tachometer-alt mr-3"></i>
                             Ecarts
                         </span>
-                        <span href="" class="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 hover:cursor-pointer"(click)="redirectTransactions()">
+                        <span href="" class="flex items-center opacity-75 hover:opacity-100 py-8 pl-6 hover:cursor-pointer"(click)="redirectTransactions()">
                             <i class="fas fa-sticky-note mr-3"></i>
                             Transactions
-                        </span>
-                        <span class="flex items-center py-8 pl-6 nav-item hover:cursor-pointer" (click)="redirectCompte()">
-                            <i class="fas fa-tachometer-alt mr-3"></i>
-                           Compte
                         </span>
                        
                     </nav>

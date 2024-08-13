@@ -1,50 +1,32 @@
-<div class="content w-full flex flex-col h-full mt-16 " *ngIf="router.url.includes('transaction')">
-    <div class="w-full flex flex-row justify-center items-center">
-      <p class="text-3xl">Transactions</p>
+<div class="_content w-full flex flex-col h-full">
+    <div class="_title flex flex-row justify-center items-center">
+      <h3 class="">Transactions</h3>
     </div>
 
-    <div class="flex items-start justify-end flex-col rounded-xl border-solid border-2 p-4 bg-gray-300 my-4">
-      <div class="dropdown flex flex-row">
+    <div class="_filters flex items-start justify-end flex-col rounded-xl border-solid border-2 p-4 bg-gray-300 my-4">
+      <div class="dropdown flex flex-row items-center">
         <p>Choisir un partenaire : </p>
-        <select name="dropdown" id="dropdown" class="rounded-full w-1/2 border-solid  ml-2 border-2" [(ngModel)]="selectedPartenaire" (change)="applyFilters()">
+        <select name="dropdown" id="dropdown" class="rounded-full w-1/2 border-solid  ml-2 mt-3 border-2 h-8" [(ngModel)]="selectedPartenaire" (change)="applyFilters()">
           <option value="" disabled selected>Choisir un partenaire</option>
           <option *ngFor="let partenaire of partenaires" [value]="partenaire">{{ partenaire }}</option>
         </select>
       </div>
-    <div class="flex flex-row items-center justify-start  mb-4 mt-7 h-full">
+    <div class="_dateFilter flex flex-row items-center justify-start  mb-4 mt-7 h-full">
       <label for="startDate" class="mr-2">Du:</label>
       <input type="date" id="startDate"  [(ngModel)]="startDate" name="startDate" class="rounded-lg p-2 border-solid border-2 mr-2">
       <label for="endDate" class="mr-2">au:</label>
       <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="rounded-lg p-2 border-solid border-2 mr-2">
-      <button type="button" class="w-1/5 button" (click)="applyFilters()">Filtrer</button>
-      <button type="button" (click)="reinitialiser()" class="button_2 w-full border-solid border-2">Réinitialiser les filtres</button>
+      <button type="button" class="w-1/5 button lg:block hidden" (click)="applyFilters()">Filtrer</button>
+      <button type="button" (click)="reinitialiser()" class="button_2 w-full border-solid border-2 lg:block hidden">Réinitialiser les filtres</button>
+    </div>
+    <div class="flex flex-row w-full">
+      <button type="button" class="w-1/5 button max-lg:block hidden" (click)="applyFilters()">Filtrer</button>
+      <button type="button" (click)="reinitialiser()" class="button_2 w-1/2 border-solid border-2 max-lg:block hidden">Réinitialiser les filtres</button>
     </div>
   </div>
-    <!-- <div class="flex flex-row justify-start items-center mb-4 w-2/3 ml-48 border-solid border-2 border-gray-100 rounded-lg p-2">
-      <div>
-      </div> -->
-
-
-      
-      <!-- <div class="pl-2">
-        <label for="startDate">Filtrer par date :</label>
-        <mat-form-field class="rounded-lg ml-2"  id="startDate">
-            
-          <mat-date-range-input [rangePicker]="picker" class="rounded-lg ml-2" >
-            <input matStartDate placeholder="Début" [(ngModel)]="range.start">
-            <input matEndDate placeholder="Fin" [(ngModel)]="range.end">
-          </mat-date-range-input>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-        </mat-form-field>
-  
-        <button type="button" (click)="Filtre()" class=" ml-4 bg-orange-500 rounded-full p-2 pl-4 pr-4">Filtrer </button>
-        <button *ngIf="filtre==true" type="button" (click)="resetFilters()" class=" ml-4 bg-gray-100 border-solid text-orange-500 rounded-full p-2 pl-4 pr-4">Réinitialiser</button>
-      
-      </div> -->
-      </div>
-      <div  class="flex flex-col items-center">
-      <div class="relative shadow-md sm:rounded-lg w-4/5 mt-1" >
+    
+    <div  class="_table flex flex-col items-center">
+      <div class="relative shadow-md sm:rounded-lg w-full mt-1" >
         <table class="w-full text-2xl text-center text-gray-500 dark:text-gray-400">
           <thead class="text-2xl text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr class="border-b-2 border-solid">
@@ -54,49 +36,20 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="dark:bg-gray-800 dark:border-gray-700 hover:cursor-pointer hover:bg-orange-100 hover:-translate-x-2 hover:translate-y-2 hover:opacity-60" *ngFor="let transaction of paginatedTransactions">
+            <tr class="dark:bg-gray-800 dark:border-gray-700 hover:cursor-pointer hover:bg-orange-100 hover:-translate-x-2 hover:translate-y-2 hover:opacity-60" *ngFor="let transaction of filteredTransactions" (click)="openModal(transaction)">
               <td class="px-6 py-4 text-gray-900">{{ transaction.partenaire }}</td> 
               <td class="px-6 py-4">{{ transaction.montant }}</td>
               <td class="px-6 py-4">{{ transaction.created_at | date:'dd-MM-yyyy' }}</td>
-              
+      
             </tr>
           </tbody>
         </table>
-        <!-- <mat-paginator [length]="filteredTransactions.length"
-                       [pageSize]="itemsPerPage"
-                       (page)="onPageChange($event)">
-        </mat-paginator> -->
       </div>
-    <!-- </div>
-      <div class="flex flex-col items-center c" *ngIf="loaded" >
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-2/3 h-full flex flex-col items-center mt-16" style="border-style: solid; border-color: black; border-width: 1.5px; border-radius: 8px; margin: 1.5%; padding: 4%; text-align: center; text-justify: auto;">
-        <table class="w-full text-2xl text-center text-gray-500 dark:text-gray-400 row-auto">
-          <thead class="text-2xl text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
-            <tr class="border-b-2 border-solid">
-              <th class="px-6 py-3">Partenaire</th>
-              <th class="px-6 py-3">Montant</th>
-              <th class="px-6 py-3">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="dark:bg-gray-800 dark:border-gray-700 hover:cursor-pointer hover:bg-orange-100 hover:-translate-x-2 hover:translate-y-2 hover:opacity-60" *ngFor="let transaction of paginatedTransactionsFunct" (click)="openModal(transaction)">
-              <td class="px-6 py-4 text-gray-900">{{ transaction.partenaire }}</td> 
-              <td class="px-6 py-4">{{ transaction.montant }}</td>
-              <td class="px-6 py-4">{{ transaction.created_at | date:'dd-MM-yyyy' }}</td>
-              
-            </tr>
-          </tbody>
-        </table>
-        <mat-paginator [length]="filteredTransactions.length"
-                       [pageSize]="itemsPerPage"
-                       (page)="onPageChange($event)">
-        </mat-paginator>
+      <div *ngIf="!loaded" class="flex flex-row justify-center items-center w-full">
+        <loader [columns]="3"></loader>
       </div>
-    </div>
-    <div *ngIf="!loaded" class="flex flex-row justify-center items-center w-full">
-      <loader></loader>
-    </div></div>
-    <div *ngIf="selectedTransaction" class="h-4/6">
+    <div *ngIf="selectedTransaction" class="_modal h-4/6">
       <app-transaction-modal *ngIf="selectedTransaction" [transaction]="selectedTransaction" #transactionModal></app-transaction-modal> -->
-
+    </div>
+</div>
 </div>

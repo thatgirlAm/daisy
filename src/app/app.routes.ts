@@ -7,12 +7,14 @@ import { LoginComponent } from './base/login/login.component';
 import { AuthGuard } from './base/auth.guard';
 import { AntiAuthGuard } from './base/anti-auth.guard';
 import { AppComponent } from './app.component';
+import { HomeComponent } from './base/home/home.component';
 
 
 export const routes: Routes = [
     { path: '', component: AppComponent, children: 
         [ {path: '', component: BaseComponent, children: 
             [
+                { path: 'home', component: HomeComponent},
                 { path: 'ecarts', component: EcartsComponent},
                 { path: 'transactions', component: TransactionsComponent},
                 { path: 'compte', component: CompteComponent},

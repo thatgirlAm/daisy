@@ -5,16 +5,21 @@ import { ApiService } from '../api.service';
 import { Login } from '../login';
 import { FormsModule } from '@angular/forms'; 
 import { ToastrService } from 'ngx-toastr';
+import { LoaderBasicComponent } from '../loader-basic/loader-basic.component';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, 
+    CommonModule, 
+    FormsModule, 
+    LoaderBasicComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  isloaded : boolean = true ; 
+  loaded : boolean = true ; 
   loginObj: Login = new Login();
   url : string  = 'http://127.0.0.1:8000/api/';
 
@@ -22,15 +27,14 @@ export class LoginComponent {
   {}
 
   onLogin() {
-    this.isloaded = false;
+    this.loaded = false;
     this.api.PostData(this.url+'auth/login', this.loginObj).subscribe({
       next: (res: any) => {
-        console.log(res); 
         if (res && res.data) {
           if (res.status == 200)
           {
             localStorage.setItem('userToken', res.data.token);
-            this.router.navigate(['']); 
+            this.router.navigate(['home']); 
           }
           else{
             this.toastr.error('Veuillez vérifier vos identifiants et réessayer.');
@@ -38,12 +42,12 @@ export class LoginComponent {
         } else {
           this.toastr.error('Veuillez vérifier vos identifiants et réessayer.');
         }
-        this.isloaded = true;
+        this.loaded = true;
       },
       error: (err: any) => {
         console.error(err);
         this.toastr.error('Login failed');
-        this.isloaded = true;
+        this.loaded = true;
       },
 
       complete : () => {

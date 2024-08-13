@@ -28,7 +28,6 @@ import { Router, RouterModule} from '@angular/router';
 export class EcartsComponent implements OnInit{
   partenaires : string[]= [] ; 
   selectedPartenaire !:  string  | null;
-  @ViewChild(EcartModalComponent) ecartModal!: EcartModalComponent;
   selectedEcart!: Ecart;
   isModalOpen: boolean = false;
   filteredEcarts: Ecart[] = [];
@@ -41,9 +40,15 @@ export class EcartsComponent implements OnInit{
   loaded: boolean = false;
   currentPage: number = 1;
   url='http://127.0.0.1:8000/api/';
+  
+  
+  @ViewChild(EcartModalComponent) ecartModal!: EcartModalComponent;
 
-  constructor(private toastr:ToastrService, public router : Router, private api:ApiService) 
-    {}
+  constructor(
+    private toastr:ToastrService, 
+    public router : Router, 
+    private api:ApiService
+  ) {}
 
   ngOnInit(): void {
     this.loadEcarts();
@@ -81,10 +86,6 @@ paginatedEcarts(): Ecart[] {
     }
     this.filteredEcarts = tempEcarts;
 
-    // if (this.paginator) {
-    //   this.paginator.length = this.filteredEcarts.length;
-    //   this.paginator.pageIndex = 0;
-    // }
   }
 
 totalPages(): number {
@@ -162,6 +163,7 @@ loadEcarts() {
       this.selectedPartenaire = null;
       this.applyFilters();
     }
+    this.applyFilters();
   }
 
  

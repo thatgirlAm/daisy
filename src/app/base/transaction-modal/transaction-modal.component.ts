@@ -29,7 +29,6 @@ export class TransactionModalComponent implements OnInit {
 
   closeModal(): void {
     this.isOpen = false;
-    console.log(this.isOpen);
     
   }
   getErrorDescription(code : number): string {

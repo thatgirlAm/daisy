@@ -9,12 +9,6 @@ import { Transaction } from '../transaction';
 import { ToastrService } from 'ngx-toastr'; 
 import { FormsModule } from '@angular/forms';
 import { TransactionModalComponent } from '../transaction-modal/transaction-modal.component';
-import { DateRange, IGX_DATE_RANGE_PICKER_DIRECTIVES } from 'igniteui-angular';
-import {ChangeDetectionStrategy} from '@angular/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { DateRangePickerOverviewExample } from "../../date-range-picker/date-range-picker.component";
 
 
 @Component({
@@ -27,16 +21,11 @@ import { DateRangePickerOverviewExample } from "../../date-range-picker/date-ran
     NgIf,
     NgFor,
     TransactionModalComponent,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    DateRangePickerOverviewExample,
     RouterModule,  
 ],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.css'],
-  providers: [
-    provideNativeDateAdapter()],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   
 })
 export class TransactionsComponent implements OnInit {
@@ -53,7 +42,6 @@ export class TransactionsComponent implements OnInit {
   selectedTransaction!: Transaction | null;
   url: string = 'http://127.0.0.1:8000/api/';
   filtre : boolean = false ; 
-  partners: string[] = [];
   selectedPartenaire: string = '';
 
 
@@ -68,24 +56,24 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit() {
     this.getTransactions();
-    this.filtre = false;
-  
   }
 
   getTransactions() {
     this.loaded = false;
     this.api.getData(this.url + 'transactions').subscribe({
-      next: (res: any) => {
+      next: (res: any) => 
+        {
         this.transactions = res.data; 
       },
-      error: (err) => {
+      error: (err) => 
+        {
         this.loaded = true;
         this.toastr.error(err);
       },
       complete: () => {
         this.loaded = true ; 
-        this.getPartenaires(); 
         this.filteredTransactions = this.transactions ; 
+        this.getPartenaires(); 
       }
     });
   }
@@ -133,7 +121,6 @@ Filtre(){
       uniquePartenaires.add("TEST");
     }
     this.partenaires = Array.from(uniquePartenaires);
-    console.log(this.partenaires);
     
   }
   applyFilters() {

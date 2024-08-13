@@ -1,7 +1,8 @@
 <div class="table-skeleton">
   <div class="table-row" *ngFor="let row of [].constructor(5); let i = index">
     <ngx-skeleton-loader *ngFor="let col of [].constructor(columns)"
-                         class="h-3 w-full" appearance="circle" >
+                         class="h-3 w-full ml-4" appearance="circle" >
     </ngx-skeleton-loader>
   </div>
 </div>
+

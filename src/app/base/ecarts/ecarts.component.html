@@ -1,25 +1,29 @@
-<div class="w-full flex flex-col h-full " *ngIf="router.url.includes('ecart')">
-      <div class="flex flex-row justify-center items-center">
-        <h2 class="text-3xl">Ecarts</h2>
+<div class="_content w-full flex flex-col h-full ">
+      <div class="_title flex flex-row justify-center items-center">
+        <h3 class="text-3xl">Ecarts</h3>
       </div>
-      <div class="flex items-start justify-end flex-col rounded-xl border-solid border-2 p-4 bg-gray-300 my-4">
-        <div class="dropdown flex flex-row">
+      <div class="_filters flex items-start justify-end flex-col rounded-xl border-solid border-2 p-4 bg-gray-300 my-4">
+        <div class="dropdown flex flex-row items-center">
           <p>Choisir un partenaire : </p>
-          <select name="dropdown" id="dropdown" class="rounded-full w-1/2 border-solid  ml-2 border-2" [(ngModel)]="selectedPartenaire" (change)="applyFilters()">
+          <select name="dropdown" id="dropdown" class="rounded-full w-1/2 border-solid  ml-2 mt-3 border-2 h-8" [(ngModel)]="selectedPartenaire" (change)="applyFilters()">
             <option value="" disabled selected>Choisir un partenaire</option>
             <option *ngFor="let partenaire of partenaires" [value]="partenaire">{{ partenaire }}</option>
           </select>
         </div>
-      <div class="flex flex-row items-center justify-start  mb-4 mt-7 h-full">
+      <div class="_dateFilter flex flex-row items-center justify-start  mb-4 mt-7 h-full">
         <label for="startDate" class="mr-2">Du:</label>
         <input type="date" id="startDate"  [(ngModel)]="startDate" name="startDate" class="rounded-lg p-2 border-solid border-2 mr-2">
         <label for="endDate" class="mr-2">au:</label>
         <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="rounded-lg p-2 border-solid border-2 mr-2">
-        <button type="button" class="w-1/5 button" (click)="applyFilters()">Filtrer</button>
-        <button type="button" (click)="reinitialiser()" class="button_2 w-full border-solid border-2">Réinitialiser les filtres</button>
+        <button type="button" class="w-1/5 button lg:block hidden" (click)="applyFilters()">Filtrer</button>
+        <button type="button" (click)="reinitialiser()" class="button_2 w-full border-solid border-2 lg:block hidden">Réinitialiser les filtres</button>
       </div>
+      <div class="flex flex-row w-full">
+      <button type="button" class="w-1/5 button max-lg:block hidden" (click)="applyFilters()">Filtrer</button>
+      <button type="button" (click)="reinitialiser()" class="button_2 w-1/2 border-solid border-2 max-lg:block hidden">Réinitialiser les filtres</button>
     </div></div>
-      <div class="relative shadow-md sm:rounded-lg w-full mt-1">
+      <div class="_table flex flex-col items-center">
+        <div class="relative shadow-md sm:rounded-lg w-full mt-1">
         <table class="w-full text-2xl text-center text-gray-500 dark:text-gray-400">
           <thead class="text-2xl text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr class="border-b-2 border-solid">
@@ -40,12 +44,14 @@
               <td class="px-6 py-4">{{ ecart.nombre }}</td>
             </tr>
           </tbody>
-        </table>
+        </table></div>
         <div *ngIf="!loaded" class="flex flex-row justify-center items-center w-full">
           <loader [columns]="4"></loader>
         </div>
-        <div *ngIf="ecartModal?.isOpen" class="modal-overlay" (click)="closeModal()">
+        <div *ngIf="ecartModal?.isOpen" class="_modal" (click)="closeModal()">
           <div class="modal-content" (click)="$event.stopPropagation()" *ngIf="selectedEcart">
             <app-ecart-modal [isOpen]="isModalOpen" [ecart]="selectedEcart"></app-ecart-modal>        </div>
       </div>
+    </div>
+  </div>
 

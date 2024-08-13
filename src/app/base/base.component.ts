@@ -45,6 +45,11 @@ export class BaseComponent implements OnInit {
     this.zone.run(() => {this.router.navigate(['compte'])});
     this.hideMenu();
   }
+  redirectHome()
+  {
+    this.zone.run(() => {this.router.navigate(['home'])});
+    this.hideMenu();
+  }
 
   toggleMenu()
   {
