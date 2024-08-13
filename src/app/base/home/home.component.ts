@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms';
 export class HomeComponent implements OnInit{
   startDate: string = '';
   endDate: string = '';
-  selectedPartenaire !:  string  | null;
+  selectedPartenaire :  string  | null = 'RAPIDO';
   partenaires !: string[];
   transactions: Transaction[] = [];
   ecarts : Ecart[] = [];
@@ -68,7 +68,11 @@ export class HomeComponent implements OnInit{
     }
 
     applyFilters() {
-      let tempEcarts = this.ecarts;
+      let tempEcarts = this.ecarts.filter(
+        (ecart) => {
+          return ecart.partenaire == this.selectedPartenaire;
+          }
+      );
       if (this.startDate!='' && this.endDate!='') {
         const start = new Date(this.startDate);
         const end = new Date(this.endDate);
@@ -124,12 +128,19 @@ export class HomeComponent implements OnInit{
     this.ecartsNombre = this.ecarts.map((ecart: Ecart) => ecart.nombre);
   }  
   getPartenaires() {
+   this.getPartenairesEcart();
+     console.log(this.partenaires);
+   
+  }
+
+  getPartenairesEcart() {
     const uniquePartenaires = new Set<string>();
-    for (const ecart of this.transactions) {
+    for (const ecart of this.ecarts) {
       uniquePartenaires.add(ecart.partenaire);
       uniquePartenaires.add("TEST");
     }
     this.partenaires = Array.from(uniquePartenaires);
+    console.log(this.partenaires);
     
   }
 
@@ -137,9 +148,10 @@ export class HomeComponent implements OnInit{
   updateGraphData() {
     this.chartOptionsMontant = {
       animationEnabled: true,
+      zoomEnabled: true,
       theme: "light1",
       title: {
-        text: "Ecarts Montant"
+        text: `Ecarts Montant - ${this.selectedPartenaire}`
       },
       axisX: {
         title: "Date",
@@ -163,9 +175,10 @@ export class HomeComponent implements OnInit{
 
     this.chartOptionsNombre = {
       animationEnabled: true,
+      zoomEnabled: true,
       theme: "light1",
       title: {
-        text: "Ecarts Nombre"
+        text: `Ecarts Nombre - ${this.selectedPartenaire}`
       },
       axisX: {
         title: "Date",

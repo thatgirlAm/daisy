@@ -15,7 +15,8 @@
     <input type="date" id="startDate"  [(ngModel)]="startDate" name="startDate" class="rounded-lg p-2 border-solid border-2 mr-2">
     <label for="endDate" class="mr-2">au:</label>
     <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="rounded-lg p-2 border-solid border-2 mr-2">
-    <button type="button" class="w-1/5 button lg:block hidden" (click)="applyFilters()">Filtrer</button>
+    <button type="button"  class="w-1/5 button lg:block hidden" (click)="applyFilters()">Afficher</button>
+    <!-- <button type="button" *ngIf="!startDate && !endDate && !selectedPartenaire" class="w-1/5 button lg:block hidden" (click)="applyFilters()">Afficher</button> -->
     <button type="button" (click)="reinitialiser()" class="button_2 w-full border-solid border-2 lg:block hidden">Réinitialiser les filtres</button>
 </div>
 <div class="flex flex-row w-full">
@@ -23,7 +24,7 @@
   <button type="button" (click)="reinitialiser()" class="button_2 w-1/2 border-solid border-2 max-lg:block hidden">Réinitialiser les filtres</button>
 </div></div>
 
-<div class="flex flex-row justify-between w-1/2 h-1/3 items-center my-16">
+<div class="_chart flex flex-row justify-between w-1/2 h-1/3 items-center my-16" *ngIf="selectedPartenaire">
     <div class="">
         <canvasjs-chart  [options]="chartOptionsMontant" style="height: 90%; width: 90%;"></canvasjs-chart>
     </div>
@@ -31,4 +32,7 @@
         <canvasjs-chart [options]="chartOptionsNombre" style="height: 90%; width: 90%;"></canvasjs-chart>
     </div>
 </div>    
+<div *ngIf="!selectedPartenaire" class="text-red-500 text-center">
+    <h5>Aucune donnée à afficher - Veuillez selectionner un partenaire</h5>
+</div>
 </div>

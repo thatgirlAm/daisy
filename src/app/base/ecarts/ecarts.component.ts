@@ -126,7 +126,7 @@ loadEcarts() {
       complete : () => {
         this.loaded = true;
         this.filteredEcarts = this.ecarts; 
-        this.getPartenaires(); 
+        this.getPartenairesEcart(); 
       }
 
     });
@@ -134,7 +134,7 @@ loadEcarts() {
    
   }
 
-  getPartenaires() {
+  getPartenairesEcart() {
     const uniquePartenaires = new Set<string>();
     for (const ecart of this.ecarts) {
       uniquePartenaires.add(ecart.partenaire);
@@ -144,6 +144,7 @@ loadEcarts() {
     console.log(this.partenaires);
     
   }
+  
   dropdownFunc()
   {
     this.dropdown!=this.dropdown;

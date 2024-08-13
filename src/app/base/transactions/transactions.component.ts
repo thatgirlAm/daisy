@@ -73,7 +73,7 @@ export class TransactionsComponent implements OnInit {
       complete: () => {
         this.loaded = true ; 
         this.filteredTransactions = this.transactions ; 
-        this.getPartenaires(); 
+        this.getPartenairesTransaction(); 
       }
     });
   }
@@ -114,7 +114,7 @@ Filtre(){
       }
       this.applyFilters(); 
   }
-  getPartenaires() {
+  getPartenairesTransaction() {
     const uniquePartenaires = new Set<string>();
     for (const ecart of this.transactions) {
       uniquePartenaires.add(ecart.partenaire);
