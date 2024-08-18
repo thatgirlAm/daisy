@@ -48,10 +48,9 @@
         <div *ngIf="!loaded" class="flex flex-row justify-center items-center w-full">
           <loader [columns]="4"></loader>
         </div>
-        <div *ngIf="ecartModal?.isOpen" class="_modal" (click)="closeModal()">
-          <div class="modal-content" (click)="$event.stopPropagation()" *ngIf="selectedEcart">
-            <app-ecart-modal [isOpen]="isModalOpen" [ecart]="selectedEcart" #ecartModal></app-ecart-modal>        </div>
-      </div>
+        <div *ngIf="selectedEcart" class="_modal h-4/6">
+          <app-ecart-modal *ngIf="selectedEcart" [ecart]="selectedEcart" #ecartModal></app-ecart-modal>
+        </div>
     </div>
   </div>
 

@@ -6,5 +6,6 @@ return [
     8000=>'Erreur de Timeout',
     0=>'Sans code erreur',
     10000 =>'Mismatch de partenaire',
-    20000 =>'Erreur de date'
+    20000 =>'Erreur de date',
+    3000 =>'Transaction présente en double'
 ];

@@ -2,10 +2,10 @@
 <div *ngIf="isOpen" class="fixed inset-0 flex items-center justify-center">
     <!-- Overlay -->
     <div class="overlay fixed inset-0 bg-black opacity-50" (click)="closeModal()"></div>
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
+    <div class="relative w-full max-w-2xl max-h-full">
         <div class="relative rounded-lg shadow dark:bg-gray-700 w-full bg-white z-50">
-            <div class="flex items-center justify-between p-1 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <div class="flex items-center justify-between border-b rounded-t dark:border-gray-600">
+                <h3 class="ml-12 text-xl font-semibold text-gray-900 dark:text-white">
                     Détails Ecart
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" (click)="closeModal()">
@@ -27,6 +27,30 @@
                         Montant:
                     </p>
                     <span class="italic text-gray-600 font-medium">{{ecart.montant_ecart}}</span>
+                </div>
+                <div class="flex flex-row justify-between items-center w-3/5">
+                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-900 font-bold">
+                        Nombre Orange Money :
+                    </p>
+                    <span class="italic text-gray-600 font-medium">{{ecart.nb_transactions_OM}}</span>
+                </div>
+                <div class="flex flex-row justify-between items-center w-3/5">
+                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-900 font-bold">
+                        Nombre Partenaire :
+                    </p>
+                    <span class="italic text-gray-600 font-medium">{{ecart.nb_transactions_PARTENAIRE}}</span>
+                </div>
+                <div class="flex flex-row justify-between items-center w-3/5">
+                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-900 font-bold">
+                        Montant Orange Money :
+                    </p>
+                    <span class="italic text-gray-600 font-medium">{{ecart.total_montant_OM | currency:'XOF'}}</span>
+                </div>
+                <div class="flex flex-row justify-between items-center w-3/5">
+                    <p class="text-base leading-relaxed text-gray-900 dark:text-gray-900 font-bold">
+                        Montant Partenaire :
+                    </p>
+                    <span class="italic text-gray-600 font-medium">{{ecart.total_montant_PARTENAIRE | currency:'XOF'}}</span>
                 </div>
             </div>
         </div>
